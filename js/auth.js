@@ -721,3 +721,4 @@ window.getMenuCategory = getMenuCategory;
 window.getMenuItemImagePath = getMenuItemImagePath;
 window.generateCurrentMenuItems = generateCurrentMenuItems;
 window.initializeMenuMap = initializeMenuMap;
+
