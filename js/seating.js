@@ -48,7 +48,7 @@ function renderGeneralSeating() {
           </div>
           Occupy Seat
         </button>
-        <button onclick="freeSeat(${tableId})" class="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 !rounded-button text-sm font-medium transition-colors whitespace-nowrap flex items-center justify-center ${occupiedSeats === 0 ? 'opacity-50 cursor-not-allowed' : ''}" ${occupiedSeats === 0 ? 'disabled' : ''}>
+        <button onclick="freeSeat(${tableId})" class="w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 !rounded-button text-sm font-medium transition-colors whitespace-nowrap flex items-center justify-center ${occupiedSeats === 0 ? 'opacity-50 cursor-not-allowed' : ''}" ${occupiedSeats === 0 ? 'disabled' : ''}>
           <div class="w-4 h-4 flex items-center justify-center mr-2">
             <i class="ri-user-unfollow-line"></i>
           </div>
@@ -103,7 +103,7 @@ function renderPrivateSeating() {
           </div>
           Occupy Seat
         </button>
-        <button onclick="freePrivateSeat(${tableId})" class="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 !rounded-button text-sm font-medium transition-colors whitespace-nowrap flex items-center justify-center ${occupiedSeats === 0 ? 'opacity-50 cursor-not-allowed' : ''}" ${occupiedSeats === 0 ? 'disabled' : ''}>
+        <button onclick="freePrivateSeat(${tableId})" class="w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 !rounded-button text-sm font-medium transition-colors whitespace-nowrap flex items-center justify-center ${occupiedSeats === 0 ? 'opacity-50 cursor-not-allowed' : ''}" ${occupiedSeats === 0 ? 'disabled' : ''}>
           <div class="w-4 h-4 flex items-center justify-center mr-2">
             <i class="ri-user-unfollow-line"></i>
           </div>
@@ -180,4 +180,5 @@ window.freeSeat = freeSeat;
 window.toggleSeat = toggleSeat;
 window.occupyPrivateSeat = occupyPrivateSeat;
 window.freePrivateSeat = freePrivateSeat;
+
 
