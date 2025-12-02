@@ -40,6 +40,9 @@
     <div class="min-h-screen flex items-center justify-center bg-gray-100">
       <div class="fixed inset-0 bg-cover bg-center" style="background-image: url('public/images/bsu.png'); background-attachment: fixed; z-index: 0;"></div>
       <div style="position:fixed;inset:0;background:rgba(0,0,0,0.28);z-index:5;"></div>
+      <button onclick="showAbout()" class="fixed top-6 right-6 z-20 bg-white text-primary px-4 py-1 rounded-lg text-sm font-medium shadow-lg hover:shadow-xl hover:bg-gray-50 transition-all">
+        About
+      </button>
       <div class="relative z-10 bg-white p-8 rounded-2xl shadow-xl w-full max-w-sm">
         <div class="text-center mb-8">
           <img src="public/images/logo.png" alt="FoodHub Logo" class="w-full mx-auto mb-4">
@@ -65,6 +68,79 @@
         <div class="text-center text-sm text-gray-500 space-y-1">
           <p>Students can browse stalls and menus</p>
           <p>Admins can manage stall information</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="aboutModal" class="modal">
+    <div class="fixed inset-0 bg-black/50 z-40"></div>
+    <div class="relative z-50 bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-screen overflow-y-auto">
+      <div class="sticky top-0 bg-white border-b border-gray-200 px-8 py-6 flex items-center justify-between">
+        <h2 class="text-2xl font-bold text-gray-900">About FoodHub</h2>
+        <button onclick="closeAbout()" class="text-gray-500 hover:text-gray-700 transition-colors">
+          <div class="w-6 h-6 flex items-center justify-center">
+            <i class="ri-close-line ri-lg"></i>
+          </div>
+        </button>
+      </div>
+      <div class="px-8 py-6 space-y-6">
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">Overview</h3>
+          <p class="text-gray-600 leading-relaxed">
+            FoodHub is a comprehensive web-based real-time information system designed for Batangas State University (Alangilan Campus) cafeteria stalls. The platform enables students to easily browse stall menus, check availability, view seating arrangements, and provide feedback. Stall administrators can efficiently manage their menus, update stall status, and track occupancy in real-time.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">Key Features</h3>
+          <ul class="text-gray-600 space-y-2">
+            <li class="flex items-start">
+              <i class="ri-check-line text-primary mr-2 flex-shrink-0 mt-0.5"></i>
+              <span>Real-time stall status and menu availability</span>
+            </li>
+            <li class="flex items-start">
+              <i class="ri-check-line text-primary mr-2 flex-shrink-0 mt-0.5"></i>
+              <span>Interactive seating map with seat availability tracking</span>
+            </li>
+            <li class="flex items-start">
+              <i class="ri-check-line text-primary mr-2 flex-shrink-0 mt-0.5"></i>
+              <span>Student feedback and rating system</span>
+            </li>
+            <li class="flex items-start">
+              <i class="ri-check-line text-primary mr-2 flex-shrink-0 mt-0.5"></i>
+              <span>Admin portal for stall management</span>
+            </li>
+            <li class="flex items-start">
+              <i class="ri-check-line text-primary mr-2 flex-shrink-0 mt-0.5"></i>
+              <span>Search and filter functionality for menus and stalls</span>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">Developer</h3>
+          <div class="bg-gray-50 rounded-lg p-4 border border-gray-200 mb-4">
+            <p class="text-gray-900 font-medium">Created by: Student Developer</p>
+            <p class="text-gray-600 text-sm">Batangas State University - Alangilan Campus</p>
+            <p class="text-gray-600 text-sm mt-2">This project was developed as an academic initiative to improve the canteen experience for students and streamline operations for stall administrators.</p>
+          </div>
+          <div class="grid grid-cols-3 gap-4">
+            <div class="flex flex-col items-center">
+              <img src="public/images/jedrick.png" alt="Developer 1" class="w-24 h-24 rounded-lg object-cover shadow-md">
+              <p class="text-gray-600 text-sm mt-2 text-center">Jedrick Arandia</p>
+            </div>
+            <div class="flex flex-col items-center">
+              <img src="public/images/samuel.png" alt="Developer 2" class="w-24 h-24 rounded-lg object-cover shadow-md">
+              <p class="text-gray-600 text-sm mt-2 text-center">Samuel Ramos</p>
+            </div>
+            <div class="flex flex-col items-center">
+              <img src="public/images/zyrone.png" alt="Developer 3" class="w-24 h-24 rounded-lg object-cover shadow-md">
+              <p class="text-gray-600 text-sm mt-2 text-center">Zyrone John Mendoza</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">Contact & Support</h3>
+          <p class="text-gray-600 text-sm">For feedback, bug reports, or feature requests, please contact the development team through the student portal or email the canteen management office.</p>
         </div>
       </div>
     </div>
