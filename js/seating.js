@@ -181,4 +181,3 @@ window.toggleSeat = toggleSeat;
 window.occupyPrivateSeat = occupyPrivateSeat;
 window.freePrivateSeat = freePrivateSeat;
 
-
