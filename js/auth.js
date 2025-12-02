@@ -677,6 +677,37 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Export functions to global scope for onclick handlers
+// About Modal Functions
+function showAbout() {
+  const modal = document.getElementById('aboutModal');
+  if (modal) {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeAbout() {
+  const modal = document.getElementById('aboutModal');
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+}
+
+// Close modal when clicking outside content
+document.addEventListener('DOMContentLoaded', function() {
+  const modal = document.getElementById('aboutModal');
+  if (modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeAbout();
+      }
+    });
+  }
+});
+
+window.showAbout = showAbout;
+window.closeAbout = closeAbout;
 window.showLogin = showLogin;
 window.showAdminLogin = showAdminLogin;
 window.showStudentDashboard = showStudentDashboard;
