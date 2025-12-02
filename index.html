@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FoodHub - Modern Canteen Management</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FF6B35',
+            secondary: '#8B5CF6'
+          },
+          borderRadius: {
+            'none': '0px',
+            'sm': '4px',
+            DEFAULT: '8px',
+            'md': '12px',
+            'lg': '16px',
+            'xl': '20px',
+            '2xl': '24px',
+            '3xl': '32px',
+            'full': '9999px',
+            'button': '8px'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <div id="loginPage" class="page active">
+    <div class="min-h-screen flex items-center justify-center bg-gray-100">
+      <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-sm">
+        <div class="text-center mb-8">
+          <img src="public/images/logo.png" alt="FoodHub Logo" class="w-full mx-auto mb-4">
+          <p class="text-blue-600 text-sm font-medium">Your Campus Canteen Guide</p>
+        </div>
+        <div class="text-center mb-6">
+          <h2 class="text-xl font-bold text-gray-800 mb-2">Welcome! Please select your role:</h2>
+        </div>
+        <div class="space-y-3 mb-6">
+          <button onclick="showStudentDashboard()" class="w-full bg-primary text-white py-3 px-6 !rounded-button font-semibold hover:opacity-90 transition-opacity whitespace-nowrap flex items-center justify-center">
+            <div class="w-5 h-5 flex items-center justify-center mr-2">
+              <i class="ri-graduation-cap-line"></i>
+            </div>
+            Student
+          </button>
+          <button onclick="showAdminLogin()" class="w-full border-2 border-primary text-primary py-3 px-6 !rounded-button font-semibold hover:bg-primary hover:text-white transition-all whitespace-nowrap flex items-center justify-center">
+            <div class="w-5 h-5 flex items-center justify-center mr-2">
+              <i class="ri-admin-line"></i>
+            </div>
+            Stall Admin
+          </button>
+        </div>
+        <div class="text-center text-sm text-gray-500 space-y-1">
+          <p>Students can browse stalls and menus</p>
+          <p>Admins can manage stall information</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="adminLoginPage" class="page">
+    <div class="min-h-screen flex items-center justify-center bg-white">
+      <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md">
+        <div class="text-center mb-8">
+          <img src="public/images/logo.png" alt="FoodHub Logo" class="w-full mx-auto mb-4">
+          <p class="text-gray-600">Stall Admin Portal</p>
+        </div>
+        <form onsubmit="adminLogin(event)" class="space-y-6">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Stall Name</label>
+            <select id="adminStallSelect" class="w-full px-4 py-3 pr-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-white" required>
+              <option value="">Select a stall</option>
+              <option value="1">Cafe Aromatiko</option>
+              <option value="2">Chowking</option>
+              <option value="3">Fried Noodles Haus</option>
+              <option value="4">Gian's Buko Juice</option>
+              <option value="5">ITSNOK Binalot</option>
+              <option value="6">Juice Bar</option>
+              <option value="7">Julie's Bakeshop</option>
+              <option value="8">Little Tokyo Takoyaki</option>
+              <option value="9">Potato Corner</option>
+              <option value="10">RC Beef Shawarma</option>
+              <option value="11">RR Sorella's</option>
+              <option value="12">Spot-G Food Hub</option>
+              <option value="13">Tender Juicy Hotdogs</option>
+              <option value="14">Theatery</option>
+              <option value="15">Waffle Time</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Admin Password</label>
+            <input type="password" id="adminPassword" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Enter your stall password" required>
+          </div>
+          <button type="submit" class="w-full header-gradient text-white py-3 px-6 !rounded-button font-semibold hover:opacity-90 transition-opacity whitespace-nowrap">
+            Login as Stall Admin
+          </button>
+          <button type="button" onclick="showLogin()" class="w-full text-gray-600 hover:text-primary transition-colors whitespace-nowrap">
+            Back to Main Login
+          </button>
+        </form>
+        <!-- Demo credentials display removed to avoid showing login hints.
+             Default admin password remains unchanged in the authentication logic. -->
+      </div>
+    </div>
+  </div>
+
+  <div id="studentDashboard" class="page">
+    <div class="bg-gray-50 min-h-screen">
+      <header class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+          <div class="flex items-center justify-between">
+            <img src="public/images/logo.png" alt="FoodHub Logo" class="h-12">
+            <div class="flex items-center space-x-4">
+              <div class="flex items-center space-x-2 text-gray-600">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-user-line"></i>
+                </div>
+                <span class="font-medium">Student Dashboard</span>
+              </div>
+              <button onclick="logout()" class="text-gray-600 hover:text-red-500 transition-colors">
+                <div class="w-8 h-8 flex items-center justify-center">
+                  <i class="ri-logout-box-line ri-lg"></i>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main class="max-w-7xl mx-auto p-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div class="bg-white rounded-2xl p-6 shadow-sm border">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                  <i class="ri-store-2-line text-green-600 ri-xl"></i>
+                </div>
+                <div>
+                  <p class="text-3xl font-bold text-gray-900" id="openStallsCount">17</p>
+                  <p class="text-gray-600 text-sm">Open Stalls</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white rounded-2xl p-6 shadow-sm border cursor-pointer card-hover" onclick="showSeatingMap()">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                  <i class="ri-armchair-line text-blue-600 ri-xl"></i>
+                </div>
+                <div>
+                  <p class="text-3xl font-bold text-gray-900"><span id="availableSeatsCount">103</span>/160</p>
+                  <p class="text-gray-600 text-sm">Available Seats</p>
+                  <p class="text-primary text-xs font-medium cursor-pointer">Click to view seating map →</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white rounded-2xl p-6 shadow-sm border">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
+                  <i class="ri-restaurant-line text-orange-600 ri-xl"></i>
+                </div>
+                <div>
+                  <p class="text-3xl font-bold text-gray-900">15</p>
+                  <p class="text-gray-600 text-sm">Total Stalls</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl p-6 shadow-sm border mb-6">
+          <div class="flex flex-col sm:flex-row gap-4">
+            <div class="flex-1 relative">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-search-line text-gray-400"></i>
+                </div>
+              </div>
+              <input type="text" id="searchInput" placeholder="Search stalls or menu items..." class="w-full pl-12 pr-4 py-3 border-none bg-gray-50 rounded-xl focus:ring-2 focus:ring-primary focus:bg-white transition-all text-sm">
+            </div>
+            <button id="openOnlyFilter" onclick="toggleOpenOnly()" class="flex items-center space-x-2 px-6 py-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors whitespace-nowrap">
+              <div class="w-5 h-5 flex items-center justify-center">
+                <i class="ri-filter-line text-gray-600"></i>
+              </div>
+              <span class="text-sm font-medium text-gray-700">Open Only</span>
+            </button>
+          </div>
+        </div>
+        <div id="stallsGrid" class="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div id="seatingMapPage" class="page">
+    <div class="bg-gray-50 min-h-screen">
+      <div class="header-gradient text-white">
+        <div class="px-6 py-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+              <button onclick="showStudentDashboard()" class="text-white hover:text-gray-200 transition-colors">
+                <div class="w-8 h-8 flex items-center justify-center">
+                  <i class="ri-arrow-left-line ri-lg"></i>
+                </div>
+              </button>
+              <h1 class="text-lg font-medium">Canteen Seating Map</h1>
+            </div>
+            <button onclick="showStudentDashboard()" class="text-white hover:text-gray-200 transition-colors">
+              <div class="w-8 h-8 flex items-center justify-center">
+                <i class="ri-close-line ri-xl"></i>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+      <main class="px-6 py-6">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-white border-2 border-green-200 p-4 rounded-2xl">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center">
+                <i class="ri-checkbox-circle-fill text-white ri-xl"></i>
+              </div>
+              <div>
+                <p class="text-sm text-gray-600 mb-1">Available Seats</p>
+                <p class="text-3xl font-bold text-green-500" id="generalAvailableSeats">103</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white border-2 border-red-200 p-4 rounded-2xl">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 bg-red-500 rounded-xl flex items-center justify-center">
+                <i class="ri-close-circle-fill text-white ri-xl"></i>
+              </div>
+              <div>
+                <p class="text-sm text-gray-600 mb-1">Occupied Seats</p>
+                <p class="text-3xl font-bold text-red-500" id="generalOccupiedSeats">57</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white border-2 border-blue-200 p-4 rounded-2xl">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center">
+                <i class="ri-table-fill text-white ri-xl"></i>
+              </div>
+              <div>
+                <p class="text-sm text-gray-600 mb-1">Total Tables</p>
+                <p class="text-3xl font-bold text-blue-500">20</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white border-2 border-orange-200 p-4 rounded-2xl">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center">
+                <i class="ri-group-fill text-white ri-xl"></i>
+              </div>
+              <div>
+                <p class="text-sm text-gray-600 mb-1">Total Capacity</p>
+                <p class="text-3xl font-bold text-orange-500">160</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-blue-50 border border-blue-200 p-4 rounded-2xl mb-6">
+          <div class="flex items-start space-x-3">
+            <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+              <i class="ri-information-fill text-white text-sm"></i>
+            </div>
+            <div>
+              <h3 class="text-blue-800 font-semibold mb-2">How to use:</h3>
+              <ul class="text-blue-700 text-sm space-y-1">
+                <li>• Click <strong>"Occupy Seat"</strong> when you sit down at a table</li>
+                <li>• Click <strong>"Free Seat"</strong> when you leave to help others find seats</li>
+                <li>• Green tables have available seats, red tables are full</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div id="generalSeatingGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div id="stallDetailPage" class="page">
+    <div id="stallBanner" class="stall-banner">
+      <div class="status-badge">
+        <span id="stallStatusBadge" class="px-3 py-1 rounded-full text-sm font-medium bg-green-500 text-white">Open</span>
+      </div>
+    </div>
+    <header class="bg-white shadow-sm border-b">
+      <div class="px-6 py-4">
+        <div class="flex items-center space-x-4">
+          <button onclick="showStudentDashboard()" class="text-gray-600 hover:text-primary transition-colors">
+            <div class="w-8 h-8 flex items-center justify-center">
+              <i class="ri-arrow-left-line ri-lg"></i>
+            </div>
+          </button>
+          <div>
+            <h1 id="stallDetailName" class="text-2xl font-bold text-gray-900">Stall Name</h1>
+            <p id="stallDetailDescription" class="text-gray-600">Stall description goes here</p>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="p-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2">
+          <h2 class="text-xl font-bold text-gray-900 mb-6">Menu Items</h2>
+          <div id="menuGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          </div>
+        </div>
+        <div class="space-y-6">
+          <div class="bg-white p-6 rounded-xl shadow-lg">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">Operating Hours</h3>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between">
+                <span class="text-gray-600">Monday - Friday</span>
+                <span class="font-medium">7:00 AM - 5:00 PM</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600">Saturday</span>
+                <span class="font-medium">8:00 AM - 6:00 PM</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600">Sunday</span>
+                <span class="font-medium">Closed</span>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white p-6 rounded-xl shadow-lg">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">Rating Overview</h3>
+            <div class="flex items-center space-x-2 mb-2">
+              <div class="flex text-yellow-400">
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-line"></i>
+              </div>
+              <span class="text-lg font-bold">4.2</span>
+            </div>
+            <p class="text-gray-600 text-sm">Based on 156 reviews</p>
+          </div>
+          <div class="bg-white p-6 rounded-xl shadow-lg">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">Quick Info</h3>
+            <div class="space-y-3 text-sm">
+              <div class="flex items-center space-x-2">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-phone-line text-gray-400"></i>
+                </div>
+                <span>+63 912 345 6789</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-map-pin-line text-gray-400"></i>
+                </div>
+                <span>Ground Floor, Albert Einstein Building</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-wallet-line text-gray-400"></i>
+                </div>
+                <span>Cash, GCash, PayMaya</span>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white p-6 rounded-xl shadow-lg">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">Student Feedback</h3>
+            <form class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Rating</label>
+                <div class="flex space-x-1" id="ratingStars">
+                  <button type="button" onclick="setRating(1)" class="text-gray-300 hover:text-primary transition-colors" data-rating="1">
+                    <div class="w-6 h-6 flex items-center justify-center">
+                      <i class="ri-star-line"></i>
+                    </div>
+                  </button>
+                  <button type="button" onclick="setRating(2)" class="text-gray-300 hover:text-primary transition-colors" data-rating="2">
+                    <div class="w-6 h-6 flex items-center justify-center">
+                      <i class="ri-star-line"></i>
+                    </div>
+                  </button>
+                  <button type="button" onclick="setRating(3)" class="text-gray-300 hover:text-primary transition-colors" data-rating="3">
+                    <div class="w-6 h-6 flex items-center justify-center">
+                      <i class="ri-star-line"></i>
+                    </div>
+                  </button>
+                  <button type="button" onclick="setRating(4)" class="text-gray-300 hover:text-primary transition-colors" data-rating="4">
+                    <div class="w-6 h-6 flex items-center justify-center">
+                      <i class="ri-star-line"></i>
+                    </div>
+                  </button>
+                  <button type="button" onclick="setRating(5)" class="text-gray-300 hover:text-primary transition-colors" data-rating="5">
+                    <div class="w-6 h-6 flex items-center justify-center">
+                      <i class="ri-star-line"></i>
+                    </div>
+                  </button>
+                </div>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Comment</label>
+                <textarea class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm" rows="3" placeholder="Share your experience..."></textarea>
+              </div>
+              <button type="submit" class="w-full header-gradient text-white py-2 px-4 !rounded-button text-sm font-medium hover:opacity-90 transition-opacity whitespace-nowrap">
+                Submit Feedback
+              </button>
+            </form>
+          </div>
+          <div id="privateSeatingButton" class="hidden">
+            <button onclick="showPrivateSeating()" class="w-full bg-gradient-to-r from-orange-500 to-yellow-400 text-white py-3 px-6 !rounded-button font-medium hover:opacity-90 transition-opacity whitespace-nowrap">
+              <div class="w-5 h-5 flex items-center justify-center inline-block mr-2">
+                <i class="ri-vip-crown-line"></i>
+              </div>
+              Cafe Aromatiko Seating Area
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="adminDashboard" class="page">
+    <header class="bg-white shadow-sm">
+      <div class="px-6 py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-4">
+            <img src="public/images/logo.png" alt="FoodHub Logo" class="h-12">
+            <div>
+              <p class="text-xs text-orange-500 text-opacity-80">Admin Portal</p>
+              <h1 id="adminStallNameDisplay" class="text-lg font-semibold text-orange-500">Loading...</h1>
+            </div>
+          </div>
+          <button onclick="logout()" class="text-orange-500 hover:text-orange-600 transition-colors">
+            <div class="w-8 h-8 flex items-center justify-center">
+              <i class="ri-logout-box-line ri-lg"></i>
+            </div>
+          </button>
+        </div>
+      </div>
+    </header>
+    <main class="p-6 bg-gray-50 min-h-screen">
+      <div class="max-w-6xl mx-auto space-y-8">
+        <!-- Basic Information Section -->
+        <div class="bg-white rounded-xl shadow-sm border p-6">
+          <h2 class="text-xl font-bold text-gray-900 mb-6">Basic Information</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Stall Name</label>
+              <input type="text" id="adminStallName" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm" value="">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Location</label>
+              <input type="text" id="adminStallLocation" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm" value="Located at Ground Floor, Albert Einstein Building">
+            </div>
+          </div>
+          <div class="mt-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+            <textarea id="adminStallDescription" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm">Premium coffee with private seating area, featuring artisanal blends and comfortable atmosphere for students and faculty.</textarea>
+          </div>
+          <div class="mt-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Current Status</label>
+            <div class="flex items-center space-x-4">
+              <label class="flex items-center space-x-2">
+                <input type="radio" name="stallStatus" value="open" class="text-primary focus:ring-primary" checked>
+                <span class="text-sm text-gray-700">Open</span>
+              </label>
+              <label class="flex items-center space-x-2">
+                <input type="radio" name="stallStatus" value="closed" class="text-primary focus:ring-primary">
+                <span class="text-sm text-gray-700">Closed</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Operating Hours Section -->
+        <div class="bg-white rounded-xl shadow-sm border p-6">
+          <h2 class="text-xl font-bold text-gray-900 mb-6">Operating Hours</h2>
+          <div class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center py-2">
+              <div class="flex items-center space-x-2">
+                <input type="checkbox" class="w-4 h-4 text-primary focus:ring-primary rounded" checked>
+                <span class="text-sm font-medium text-gray-900">Monday</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input type="time" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary" value="07:00">
+                <span class="text-gray-500 text-sm">AM</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input type="time" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary" value="19:00">
+                <span class="text-gray-500 text-sm">PM</span>
+              </div>
+              <div class="text-sm text-gray-500">Open</div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center py-2">
+              <div class="flex items-center space-x-2">
+                <input type="checkbox" class="w-4 h-4 text-primary focus:ring-primary rounded" checked>
+                <span class="text-sm font-medium text-gray-900">Tuesday</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input type="time" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary" value="07:00">
+                <span class="text-gray-500 text-sm">AM</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input type="time" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary" value="19:00">
+                <span class="text-gray-500 text-sm">PM</span>
+              </div>
+              <div class="text-sm text-gray-500">Open</div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center py-2">
+              <div class="flex items-center space-x-2">
+                <input type="checkbox" class="w-4 h-4 text-primary focus:ring-primary rounded" checked>
+                <span class="text-sm font-medium text-gray-900">Wednesday</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input type="time" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary" value="07:00">
+                <span class="text-gray-500 text-sm">AM</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input type="time" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary" value="19:00">
+                <span class="text-gray-500 text-sm">PM</span>
+              </div>
+              <div class="text-sm text-gray-500">Open</div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center py-2">
+              <div class="flex items-center space-x-2">
+                <input type="checkbox" class="w-4 h-4 text-primary focus:ring-primary rounded" checked>
+                <span class="text-sm font-medium text-gray-900">Thursday</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input type="time" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary" value="07:00">
+                <span class="text-gray-500 text-sm">AM</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input type="time" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary" value="19:00">
+                <span class="text-gray-500 text-sm">PM</span>
+              </div>
+              <div class="text-sm text-gray-500">Open</div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center py-2">
+              <div class="flex items-center space-x-2">
+                <input type="checkbox" class="w-4 h-4 text-primary focus:ring-primary rounded" checked>
+                <span class="text-sm font-medium text-gray-900">Friday</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input type="time" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary" value="07:00">
+                <span class="text-gray-500 text-sm">AM</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input type="time" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary" value="19:00">
+                <span class="text-gray-500 text-sm">PM</span>
+              </div>
+              <div class="text-sm text-gray-500">Open</div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center py-2">
+              <div class="flex items-center space-x-2">
+                <input type="checkbox" class="w-4 h-4 text-primary focus:ring-primary rounded" checked>
+                <span class="text-sm font-medium text-gray-900">Saturday</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input type="time" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary" value="08:00">
+                <span class="text-gray-500 text-sm">AM</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input type="time" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary" value="18:00">
+                <span class="text-gray-500 text-sm">PM</span>
+              </div>
+              <div class="text-sm text-gray-500">Open</div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center py-2">
+              <div class="flex items-center space-x-2">
+                <span class="text-sm font-medium text-gray-400">Sunday</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input type="time" class="px-3 py-2 border border-gray-300 rounded-lg text-sm opacity-50" value="09:00" disabled>
+                <span class="text-gray-400 text-sm">AM</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input type="time" class="px-3 py-2 border border-gray-300 rounded-lg text-sm opacity-50" value="17:00" disabled>
+                <span class="text-gray-400 text-sm">PM</span>
+              </div>
+              <div class="text-sm text-gray-400">Closed</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Information Section -->
+        <div class="bg-white rounded-xl shadow-sm border p-6">
+          <h2 class="text-xl font-bold text-gray-900 mb-6">Contact Information</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+              <input type="tel" id="adminStallPhone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm" value="">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+              <input type="email" id="adminStallEmail" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm" value="">
+            </div>
+          </div>
+        </div>
+
+        <!-- Menu Management Section -->
+        <div class="bg-white rounded-xl shadow-sm border p-6">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h2 class="text-xl font-bold text-gray-900">Menu Management</h2>
+              <div class="flex items-center space-x-4 mt-2">
+                <span class="text-sm text-gray-600">Current Menu Items: <span class="font-medium">27 items available</span></span>
+                <label class="flex items-center space-x-2">
+                  <span class="text-sm text-gray-600">Menu Visible</span>
+                  <div class="relative">
+                    <input type="checkbox" class="sr-only" checked>
+                    <div class="w-10 h-6 bg-primary rounded-full shadow-inner transition-colors duration-200"></div>
+                    <div class="absolute right-1 top-1 bg-white w-4 h-4 rounded-full shadow transition-transform duration-200"></div>
+                  </div>
+                </label>
+              </div>
+            </div>
+            <button onclick="showMenuManagement()" class="header-gradient text-white px-6 py-3 !rounded-button font-medium hover:opacity-90 transition-opacity whitespace-nowrap flex items-center">
+              <div class="w-5 h-5 flex items-center justify-center mr-2">
+                <i class="ri-restaurant-line"></i>
+              </div>
+              Manage Menu Items
+            </button>
+          </div>
+        </div>
+
+        <!-- Stall Image Section -->
+        <div class="bg-white rounded-xl shadow-sm border p-6">
+          <h2 class="text-xl font-bold text-gray-900 mb-6">Stall Image</h2>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Current Image</label>
+              <div class="relative w-full max-w-lg">
+                <img id="adminCurrentImage" src="public/images/default-menu.png" alt="Current Stall Image" class="w-full h-64 object-cover rounded-lg border">
+              </div>
+            </div>
+            <div class="flex items-center space-x-4">
+              <button onclick="uploadStallImage()" class="bg-primary text-white px-6 py-3 !rounded-button font-medium hover:opacity-90 transition-opacity whitespace-nowrap flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center mr-2">
+                  <i class="ri-upload-cloud-line"></i>
+                </div>
+                Upload New Image
+              </button>
+              <p class="text-sm text-gray-500">Drag and drop your image here, or click to browse<br>Recommended: 1200x800 px or PNG, max 5MB</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Save Changes Button -->
+        <div class="flex justify-end">
+          <button onclick="saveAllChanges()" class="header-gradient text-white px-8 py-3 !rounded-button font-semibold hover:opacity-90 transition-opacity whitespace-nowrap">
+            Save All Changes
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="privateSeatingModal" class="modal">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-6xl mx-4 max-h-[90vh] overflow-y-auto">
+      <div class="bg-gradient-to-r from-orange-500 via-orange-400 to-pink-500 text-white p-6 rounded-t-2xl">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-2xl font-bold">Seating Map</h2>
+            <p class="text-white opacity-90">Click on a table to occupy or free a seat</p>
+          </div>
+          <button onclick="closePrivateSeating()" class="text-white hover:text-orange-200 transition-colors">
+            <div class="w-8 h-8 flex items-center justify-center">
+              <i class="ri-close-line ri-xl"></i>
+            </div>
+          </button>
+        </div>
+      </div>
+      <div class="p-6">
+        <div class="grid grid-cols-4 gap-4 mb-6">
+          <div class="bg-green-50 border-2 border-green-200 p-4 rounded-2xl">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center">
+                <i class="ri-check-line text-white ri-xl"></i>
+              </div>
+              <div>
+                <p class="text-sm text-gray-600 mb-1">Available Seats</p>
+                <p class="text-3xl font-bold text-green-500" id="privateAvailableSeats">42</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-red-50 border-2 border-red-200 p-4 rounded-2xl">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 bg-red-500 rounded-xl flex items-center justify-center">
+                <i class="ri-close-line text-white ri-xl"></i>
+              </div>
+              <div>
+                <p class="text-sm text-gray-600 mb-1">Occupied Seats</p>
+                <p class="text-3xl font-bold text-red-500" id="privateOccupiedSeats">6</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-blue-50 border-2 border-blue-200 p-4 rounded-2xl">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center">
+                <i class="ri-table-fill text-white ri-xl"></i>
+              </div>
+              <div>
+                <p class="text-sm text-gray-600 mb-1">Total Tables</p>
+                <p class="text-3xl font-bold text-blue-500">6</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-orange-50 border-2 border-orange-200 p-4 rounded-2xl">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center">
+                <i class="ri-group-fill text-white ri-xl"></i>
+              </div>
+              <div>
+                <p class="text-sm text-gray-600 mb-1">Total Capacity</p>
+                <p class="text-3xl font-bold text-orange-500">48</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-blue-50 border border-blue-200 p-4 rounded-2xl mb-6">
+          <div class="flex items-start space-x-3">
+            <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+              <i class="ri-information-fill text-white text-sm"></i>
+            </div>
+            <div>
+              <h3 class="text-blue-800 font-semibold mb-2">How to use:</h3>
+              <ul class="text-blue-700 text-sm space-y-1">
+                <li>• Click <strong>"Occupy Seat"</strong> when you sit down at a table</li>
+                <li>• Click <strong>"Free Seat"</strong> when you leave to help others find seats</li>
+                <li>• Green tables have available seats, red tables are full</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div id="privateSeatingGrid" class="grid grid-cols-3 gap-4">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="menuManagementModal" class="modal">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-7xl mx-4 max-h-[90vh] overflow-y-auto">
+      <div class="header-gradient text-white p-6 rounded-t-2xl">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-2xl font-bold">Menu Management</h2>
+            <p class="text-white opacity-90">Add, edit, or remove menu items for your stall</p>
+          </div>
+          <button onclick="closeMenuManagement()" class="text-white hover:text-gray-200 transition-colors">
+            <div class="w-8 h-8 flex items-center justify-center">
+              <i class="ri-close-line ri-xl"></i>
+            </div>
+          </button>
+        </div>
+      </div>
+      <div class="p-6">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
+          <div class="bg-blue-50 border-2 border-blue-200 p-4 rounded-2xl">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center">
+                <i class="ri-restaurant-line text-white ri-xl"></i>
+              </div>
+              <div>
+                <p class="text-sm text-gray-600 mb-1">Total Items</p>
+                <p class="text-3xl font-bold text-blue-500" id="totalMenuItems">0</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-green-50 border-2 border-green-200 p-4 rounded-2xl">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center">
+                <i class="ri-check-circle-line text-white ri-xl"></i>
+              </div>
+              <div>
+                <p class="text-sm text-gray-600 mb-1">Available</p>
+                <p class="text-3xl font-bold text-green-500" id="availableMenuItems">0</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-red-50 border-2 border-red-200 p-4 rounded-2xl">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 bg-red-500 rounded-xl flex items-center justify-center">
+                <i class="ri-close-circle-line text-white ri-xl"></i>
+              </div>
+              <div>
+                <p class="text-sm text-gray-600 mb-1">Sold Out</p>
+                <p class="text-3xl font-bold text-red-500" id="soldOutMenuItems">0</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-orange-50 border-2 border-orange-200 p-4 rounded-2xl">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center">
+                <i class="ri-money-dollar-circle-line text-white ri-xl"></i>
+              </div>
+              <div>
+                <p class="text-sm text-gray-600 mb-1">Avg. Price</p>
+                <p class="text-3xl font-bold text-orange-500">₱<span id="avgMenuPrice">0</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center space-x-4">
+            <h3 class="text-lg font-bold text-gray-900">Menu Items</h3>
+            <div class="flex items-center space-x-2">
+              <span class="text-sm text-gray-600">Menu Visible to Students</span>
+              <div class="relative">
+                <input type="checkbox" id="menuVisibilityToggle" class="sr-only" checked>
+                <div class="w-10 h-6 bg-primary rounded-full shadow-inner transition-colors duration-200 cursor-pointer" onclick="toggleMenuVisibility()"></div>
+                <div class="absolute right-1 top-1 bg-white w-4 h-4 rounded-full shadow transition-transform duration-200 cursor-pointer" onclick="toggleMenuVisibility()"></div>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <div class="w-4 h-4 flex items-center justify-center">
+                  <i class="ri-search-line text-gray-400"></i>
+                </div>
+              </div>
+              <input type="text" id="menuSearchInput" placeholder="Search menu items..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm w-64">
+            </div>
+            <button onclick="addNewMenuItem()" class="header-gradient text-white px-6 py-2 !rounded-button font-medium hover:opacity-90 transition-opacity whitespace-nowrap flex items-center">
+              <div class="w-4 h-4 flex items-center justify-center mr-2">
+                <i class="ri-add-line"></i>
+              </div>
+              Add New Item
+            </button>
+          </div>
+        </div>
+        <div id="menuItemsContainer" class="space-y-4 max-h-96 overflow-y-auto">
+        </div>
+        <div class="flex justify-end space-x-4 mt-6 pt-6 border-t">
+          <button onclick="closeMenuManagement()" class="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap">
+            Cancel
+          </button>
+          <button onclick="saveMenuChanges()" class="header-gradient text-white px-6 py-3 !rounded-button font-medium hover:opacity-90 transition-opacity whitespace-nowrap">
+            Save All Changes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <!-- Load stall menu data first -->
+  <script src="js/stalls/theatery.js"></script>
+  <script src="js/stalls/spotg.js"></script>
+  <script src="js/stalls/littletokyo.js"></script>
+  <script src="js/stalls/rcbeef.js"></script>
+  <script src="js/stalls/juicebar.js"></script>
+  <script src="js/stalls/chowking.js"></script>
+  <script src="js/stalls/friednoodles.js"></script>
+  <script src="js/stalls/itsnok.js"></script>
+  <script src="js/stalls/giansbuko.js"></script>
+  <script src="js/stalls/rrsorelas.js"></script>
+  <script src="js/stalls/tenderjuicy.js"></script>
+  <script src="js/stalls/potatocorner.js"></script>
+  <script src="js/stalls/juliesbakeshop.js"></script>
+  <script src="js/stalls/waffletime.js"></script>
+  <script src="js/stalls/cafearomatiko.js"></script>
+  
+  <!-- Load main app scripts -->
+  <script src="js/stalls.js"></script>
+  <script src="js/seating.js"></script>
+  <script src="js/stallDetail.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/fetchStalls.js"></script>
+  
+  <!-- Initialize menu map after all stall files are loaded -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof initializeMenuMap === 'function') {
+        initializeMenuMap();
+      }
+    });
+  </script>
+</body>
+</html>
