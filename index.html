@@ -15,7 +15,7 @@
       theme: {
         extend: {
           colors: {
-            primary: '#FF6B35',
+            primary: '#DC2626',
             secondary: '#8B5CF6'
           },
           borderRadius: {
@@ -38,7 +38,9 @@
 <body class="bg-gray-50 min-h-screen">
   <div id="loginPage" class="page active">
     <div class="min-h-screen flex items-center justify-center bg-gray-100">
-      <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-sm">
+      <div class="fixed inset-0 bg-cover bg-center" style="background-image: url('public/images/bsu.png'); background-attachment: fixed; z-index: 0;"></div>
+      <div style="position:fixed;inset:0;background:rgba(0,0,0,0.28);z-index:5;"></div>
+      <div class="relative z-10 bg-white p-8 rounded-2xl shadow-xl w-full max-w-sm">
         <div class="text-center mb-8">
           <img src="public/images/logo.png" alt="FoodHub Logo" class="w-full mx-auto mb-4">
           <p class="text-blue-600 text-sm font-medium">Your Campus Canteen Guide</p>
@@ -168,8 +170,8 @@
           <div class="bg-white rounded-2xl p-6 shadow-sm border">
             <div class="flex items-center justify-between">
               <div class="flex items-center space-x-4">
-                <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
-                  <i class="ri-restaurant-line text-orange-600 ri-xl"></i>
+                <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
+                  <i class="ri-restaurant-line text-red-700 ri-xl"></i>
                 </div>
                 <div>
                   <p class="text-3xl font-bold text-gray-900">15</p>
@@ -259,14 +261,14 @@
               </div>
             </div>
           </div>
-          <div class="bg-white border-2 border-orange-200 p-4 rounded-2xl">
+          <div class="bg-white border-2 border-blue-200 p-4 rounded-2xl">
             <div class="flex items-center space-x-3">
-              <div class="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center">
+              <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center">
                 <i class="ri-group-fill text-white ri-xl"></i>
               </div>
               <div>
                 <p class="text-sm text-gray-600 mb-1">Total Capacity</p>
-                <p class="text-3xl font-bold text-orange-500">160</p>
+                <p class="text-3xl font-bold text-blue-500">160</p>
               </div>
             </div>
           </div>
@@ -418,7 +420,7 @@
             </form>
           </div>
           <div id="privateSeatingButton" class="hidden">
-            <button onclick="showPrivateSeating()" class="w-full bg-gradient-to-r from-orange-500 to-yellow-400 text-white py-3 px-6 !rounded-button font-medium hover:opacity-90 transition-opacity whitespace-nowrap">
+            <button onclick="showPrivateSeating()" class="w-full bg-red-600 hover:bg-red-700 text-white py-3 px-6 !rounded-button font-medium hover:opacity-90 transition-opacity whitespace-nowrap">
               <div class="w-5 h-5 flex items-center justify-center inline-block mr-2">
                 <i class="ri-vip-crown-line"></i>
               </div>
@@ -437,11 +439,11 @@
           <div class="flex items-center space-x-4">
             <img src="public/images/logo.png" alt="FoodHub Logo" class="h-12">
             <div>
-              <p class="text-xs text-orange-500 text-opacity-80">Admin Portal</p>
-              <h1 id="adminStallNameDisplay" class="text-lg font-semibold text-orange-500">Loading...</h1>
+              <p class="text-xs text-red-600 text-opacity-80">Admin Portal</p>
+              <h1 id="adminStallNameDisplay" class="text-lg font-semibold text-red-600">Loading...</h1>
             </div>
           </div>
-          <button onclick="logout()" class="text-orange-500 hover:text-orange-600 transition-colors">
+          <button onclick="logout()" class="text-red-600 hover:text-red-700 transition-colors">
             <div class="w-8 h-8 flex items-center justify-center">
               <i class="ri-logout-box-line ri-lg"></i>
             </div>
@@ -669,13 +671,13 @@
 
   <div id="privateSeatingModal" class="modal">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-6xl mx-4 max-h-[90vh] overflow-y-auto">
-      <div class="bg-gradient-to-r from-orange-500 via-orange-400 to-pink-500 text-white p-6 rounded-t-2xl">
+      <div class="bg-gradient-to-r from-red-600 via-red-500 to-pink-500 text-white p-6 rounded-t-2xl">
         <div class="flex items-center justify-between">
           <div>
             <h2 class="text-2xl font-bold">Seating Map</h2>
             <p class="text-white opacity-90">Click on a table to occupy or free a seat</p>
           </div>
-          <button onclick="closePrivateSeating()" class="text-white hover:text-orange-200 transition-colors">
+          <button onclick="closePrivateSeating()" class="text-white hover:text-red-200 transition-colors">
             <div class="w-8 h-8 flex items-center justify-center">
               <i class="ri-close-line ri-xl"></i>
             </div>
@@ -717,14 +719,14 @@
               </div>
             </div>
           </div>
-          <div class="bg-orange-50 border-2 border-orange-200 p-4 rounded-2xl">
+          <div class="bg-red-50 border-2 border-red-200 p-4 rounded-2xl">
             <div class="flex items-center space-x-3">
-              <div class="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center">
+              <div class="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center">
                 <i class="ri-group-fill text-white ri-xl"></i>
               </div>
               <div>
                 <p class="text-sm text-gray-600 mb-1">Total Capacity</p>
-                <p class="text-3xl font-bold text-orange-500">48</p>
+                <p class="text-3xl font-bold text-red-600">48</p>
               </div>
             </div>
           </div>
@@ -800,14 +802,14 @@
               </div>
             </div>
           </div>
-          <div class="bg-orange-50 border-2 border-orange-200 p-4 rounded-2xl">
+          <div class="bg-red-50 border-2 border-red-200 p-4 rounded-2xl">
             <div class="flex items-center space-x-3">
-              <div class="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center">
+              <div class="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center">
                 <i class="ri-money-dollar-circle-line text-white ri-xl"></i>
               </div>
               <div>
                 <p class="text-sm text-gray-600 mb-1">Avg. Price</p>
-                <p class="text-3xl font-bold text-orange-500">₱<span id="avgMenuPrice">0</span></p>
+                <p class="text-3xl font-bold text-red-600">₱<span id="avgMenuPrice">0</span></p>
               </div>
             </div>
           </div>
@@ -891,4 +893,3 @@
   </script>
 </body>
 </html>
-
