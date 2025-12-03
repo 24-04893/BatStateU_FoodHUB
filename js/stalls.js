@@ -19,6 +19,71 @@ const stalls = [
 ];
 
 let showOpenOnly = false;
+let searchTerm = '';
+
+function getFilteredStalls() {
+  const term = searchTerm.trim().toLowerCase();
+  let list = showOpenOnly ? stalls.filter(s => s.status === 'open') : stalls.slice();
+  if (term.length > 0) {
+    list = list.filter(s => {
+      // match stall name or description first
+      if (s.name.toLowerCase().includes(term) || (s.description || '').toLowerCase().includes(term)) return true;
+
+      // best-effort: try to find a matching menu variable for this stall and search its items
+      function resolveMenuVar(stall) {
+        const candidates = [];
+        // candidate from stall name (remove non-alphanumerics)
+        const nameSlug = (stall.name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (nameSlug) candidates.push(nameSlug + 'Menu');
+
+        // candidate from image folder name if available
+        try {
+          const parts = (stall.image || '').split('/');
+          const idx = parts.indexOf('images');
+          if (idx >= 0 && parts.length > idx + 1) {
+            const folder = parts[idx + 1] || '';
+            const folderSlug = folder.toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (folderSlug) candidates.push(folderSlug + 'Menu');
+          }
+        } catch (e) {}
+
+        // also try a few variations (drop repeated letters issues)
+        if (nameSlug.includes('sorellas')) {
+          candidates.push(nameSlug.replace('sorellas', 'sorelas') + 'Menu');
+        }
+
+        for (const v of candidates) {
+          try {
+            // try globalThis first
+            if (typeof globalThis !== 'undefined' && globalThis[v]) return globalThis[v];
+            // fallback to eval if available
+            try {
+              const val = eval(v);
+              if (val) return val;
+            } catch (e) {}
+          } catch (e) {}
+        }
+        return null;
+      }
+
+      const menuObj = resolveMenuVar(s);
+      if (menuObj) {
+        // check names and descriptions arrays
+        const names = Array.isArray(menuObj.names) ? menuObj.names : [];
+        const descs = Array.isArray(menuObj.descriptions) ? menuObj.descriptions : [];
+        for (const n of names) {
+          if ((n || '').toLowerCase().includes(term)) return true;
+        }
+        for (const d of descs) {
+          if ((d || '').toLowerCase().includes(term)) return true;
+        }
+      }
+
+      return false;
+    });
+  }
+  return list;
+}
 
 function loadStalls() {
   const grid = document.getElementById('stallsGrid');
@@ -26,7 +91,7 @@ function loadStalls() {
 
   grid.innerHTML = '';
 
-  const list = showOpenOnly ? stalls.filter(s => s.status === 'open') : stalls;
+  const list = getFilteredStalls();
 
   list.forEach(stall => {
     const card = document.createElement('div');
@@ -70,6 +135,15 @@ function updateStallCounts() {
 
 // Initialize on load if the page is already present
 document.addEventListener('DOMContentLoaded', () => {
+  // Attach search handler if search input exists
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) {
+    searchInput.addEventListener('input', function (e) {
+      searchTerm = e.target.value || '';
+      loadStalls();
+    });
+  }
+
   loadStalls();
 });
 
