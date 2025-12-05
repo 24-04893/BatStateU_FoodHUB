@@ -25,8 +25,15 @@ def api_menu_states():
     return jsonify(data)
 
 
-@app.route('/api/menu-states/<int:stall_id>', methods=['POST'])
+@app.route('/api/menu-states/<int:stall_id>', methods=['POST', 'OPTIONS'])
 def save_menu_state(stall_id):
+    # Respond to CORS preflight requests
+    if request.method == 'OPTIONS':
+        resp = app.make_response(('', 204))
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        resp.headers['Access-Control-Allow-Methods'] = 'POST, OPTIONS'
+        resp.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+        return resp
     # Parse JSON payload
     try:
         payload = request.get_json()
@@ -53,7 +60,9 @@ def save_menu_state(stall_id):
         os.makedirs(os.path.dirname(states_path), exist_ok=True)
         with open(states_path, 'w', encoding='utf-8') as f:
             json.dump(states, f, ensure_ascii=False, indent=2)
-        return jsonify({'ok': True})
+        resp = jsonify({'ok': True})
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
     except Exception as e:
         return jsonify({'error': f'Failed to write file: {str(e)}'}), 500
 
